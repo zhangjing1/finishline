@@ -1,0 +1,17 @@
+install:
+	test -d ./node_modules/md2gslides/bin/ || npm install md2gslides
+	test -d venv || virtualenv venv
+	venv/bin/pip install -Ur requirements.txt
+
+buildstatus: install
+	venv/bin/python finishline \
+		--config errata.conf > foo.md
+
+uploadstatus: buildstatus
+	./node_modules/md2gslides/bin/md2gslides.js foo.md \
+		-t "ET-QE-OKRs, FY19Q4" \
+		-e -a 1T1jKJAk6_3puf1vpV2L7YEqLv5wamh22bPt-zldGUi4
+
+buildemail: install
+	venv/bin/python finishline \
+		--config ${YOUR_CONFIG_FILE} > report-$(shell date '+%F').md
