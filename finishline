@@ -17,6 +17,8 @@ import re
 import six
 import sys
 import traceback
+from collections import OrderedDict
+from operator import attrgetter
 
 from mosaic import mosaic
 
@@ -317,6 +319,7 @@ def collate_issues(client, args, issues):
         objective = getattr(epics[epic_key], 'objective', placeholder)
         objectives[objective].add(epic_key)
 
+
     # Second, do our main work of processing the individual issues passed in.
     for issue in issues:
         epic_key = issue.raw['fields'][args['epic_field']]
@@ -356,8 +359,12 @@ def collate_issues(client, args, issues):
             if key in objectives[objective]
         ) / len(objectives[objective])
 
+    
+    # sort the epic by complete percent.
+    sorted_epics = OrderedDict(sorted(epics.items(), key=lambda x: attrgetter(x[1].percent_complete)))
+    
     return dict(
-        epics=epics,
+        epics=sorted_epics,
         by_epic=by_epic,
         objectives=objectives,
         objective_completion=objective_completion,

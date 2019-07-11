@@ -1,13 +1,6 @@
 project = {{ project }}
 AND (
-  resolution is EMPTY OR (
-    resolution is not EMPTY
-    AND resolutiondate >= {{ since }}
-  )
-)
-AND (
-  "Epic Link" in (ERRATA-7106,ERRATA-7078,ERRATA-7083,ERRATA-7077,ERRATA-7123,ERRATA-6689,ERRATA-6622
+  "Epic Link" in (ERRATA-7831,ERRATA-7819,ERRATA-7449,ERRATA-7821,ERRATA-7818,ERRATA-7427,ERRATA-7832,ERRATA-7599,ERRATA-7915,ERRATA-7429
                  )
 )
 AND status != Dropped
-
