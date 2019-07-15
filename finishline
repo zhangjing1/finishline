@@ -349,7 +349,7 @@ def collate_issues(client, args, issues):
             epics[epic_key].done_count += 1
         issue.fields.key = issue.key
         by_epic[epic_key][category].add(issue.fields)
-
+    
     # Bubble up the KR completion to an average value for the objective.
     objective_completion = {}
     for objective in objectives:
@@ -360,11 +360,8 @@ def collate_issues(client, args, issues):
         ) / len(objectives[objective])
 
     
-    # sort the epic by complete percent.
-    sorted_epics = OrderedDict(sorted(epics.items(), key=lambda x: attrgetter(x[1].percent_complete)))
-    
     return dict(
-        epics=sorted_epics,
+        epics=epics,
         by_epic=by_epic,
         objectives=objectives,
         objective_completion=objective_completion,
@@ -424,6 +421,7 @@ if __name__ == '__main__':
                'issues.'), file=sys.stderr)
         get_mosaic_status(data['epics'], config_options['project'], client,
                           config_options['mosaic_config'])
+
     output = render(config_options['template'], config_options, data)
     if isinstance(output, six.text_type):
         output = output.encode('utf-8')
