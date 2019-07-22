@@ -20,8 +20,8 @@
 * **Update**: (*{{epic.status_update.updated.split('T')[0]}}*) {{epic.status_update.cleaned}}{% if attribution %} — *{{epic.status_update.author}}*{% endif %}{% endif %}
 
 {.column}
-{% for category in by_epic[key] | sort %}
-**{{ category }}**:
+{% for category in by_epic[key] | sort(reverse = True) %}
+{{ category }}:
 {% for issue in by_epic[key][category] %}
 * ([{{ issue.key }}]({{ server }}/browse/{{ issue.key }}))
   {{ issue['summary'].replace('[', '').replace(']', ':') }}{% endfor %}
