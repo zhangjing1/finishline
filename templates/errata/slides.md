@@ -24,7 +24,8 @@
 {{ category }}:
 {% for issue in by_epic[key][category] %}
 * ([{{ issue.key }}]({{ server }}/browse/{{ issue.key }}))
-  {{ issue['summary'].replace('[', '').replace(']', ':') }}{% endfor %}
+  {{ issue['summary'].replace('[', '').replace(']', ':') }}
+  {{ " -- " }}{{ "Due: " }}{{ issue['duedate'] }}{% endfor %}
 {% endfor %}
 {% if epic.image_url %}![]({{epic.image_url}}){.background}{% endif %}
 ---{% endfor %}
