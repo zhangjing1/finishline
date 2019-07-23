@@ -421,6 +421,10 @@ if __name__ == '__main__':
                'issues.'), file=sys.stderr)
         get_mosaic_status(data['epics'], config_options['project'], client,
                           config_options['mosaic_config'])
+        #sort by complete percentage
+    changed_epics = data['epics'].copy()
+    data['epics'] = OrderedDict(sorted(changed_epics.items(),
+            key=lambda x: float(x[1].percent_complete)))
 
     output = render(config_options['template'], config_options, data)
     if isinstance(output, six.text_type):
